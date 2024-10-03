@@ -46,6 +46,7 @@ graph TD
         F
     end
     G -->|Persistent Storage| H[Host Machine]
+    ```
 
 
 CryptoMonitor is thoughtfully architected to prioritize reliability and maintainability. The application is divided into modular components, each handling specific responsibilities:
