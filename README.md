@@ -111,18 +111,19 @@ graph TD
     A[CoinGecko API] -->|Fetch Data Every Second| B[fetcher.py]
     B -->|Process Data| C[alerts.py]
     B -->|Insert Data| D[db.py]
-    D --> E[ticker_data Table]
-    D --> F[daily_ohlcv Materialized View]
-    F -->|Aggregate Data| E
-    C -->|Log Alerts| G[alerts/alerts.txt]
-    F -->|Refresh Every 60s| F
+    
     subgraph Docker Container
+        subgraph PostgreSQL Database
+            E[ticker_data Table]
+            F[daily_ohlcv Materialized View]
+        end
         B
         C
-        D
-        E[ticker_data Table]
-        F[daily_ohlcv Materialized View]
+        D --> E
+        D --> F
     end
+
+    C -->|Log Alerts| G[alerts/alerts.txt]
     G -->|Persistent Storage| H[Host Machine]
 ```
 
