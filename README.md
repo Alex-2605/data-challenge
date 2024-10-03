@@ -59,6 +59,7 @@
 
 - The `-d` flag runs the containers in detached mode..
 
+
 3. **Verify the Setup**
 
    Check that both the application and database containers are running:
@@ -67,6 +68,7 @@
    docker-compose ps
 
 - You should see output indicating that both services (`app` and `db`) are up.
+
 
 4. **Monitor Application Logs**
 
@@ -92,6 +94,15 @@
 
    ```
    docker-compose down
+
+### Accessing the PostgreSQL Database
+
+1. **Access the PostgreSQL container**
+
+   Run the following command to access the PostgreSQL database inside the container:
+
+   ```bash
+   docker exec -it <db_container_name> psql -U postgres -d crypto_data
 
 ### Design & Architecture
 

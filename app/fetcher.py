@@ -4,7 +4,7 @@ import logging
 from retry import retry
 import requests  # Ensure this is imported
 
-from .alerts import perform_alert_checks
+from alerts import perform_alert_checks
 
 @retry(tries=3, delay=5, backoff=2, jitter=(1,3))
 def fetch_data():
