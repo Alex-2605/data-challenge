@@ -8,6 +8,7 @@
 
 - **Real-Time Data Ingestion:**
   - **Frequent Updates:** Retrieves the latest price and volume data for BTC, ETH, and ZEC every second from CoinGecko's API.
+  - **IMPORTANT NOTE:** CoinGecko API offers both free and paid plans. The Demo API plan is accessible to all CoinGecko users at zero cost, with a stable rate limit of 30 calls/min and a monthly cap of 10,000 calls, meaning, even that this solution aims to retreive data per second for three different tickers (BTC, ETH & ZEC), this is NOT possible without upgrading the plan
   - **Resilient Fetching:** Utilizes retry mechanisms to handle transient API failures, ensuring continuous data collection without manual intervention.
 
 - **Data Storage and Management:**
@@ -26,6 +27,11 @@
 - **Comprehensive Monitoring:**
   - **Health Checks:** Incorporates health checks for database connectivity, ensuring the system remains operational and can recover from potential disruptions.
   - **Logging:** Employs structured logging to facilitate easy monitoring and debugging of the application's operations and alerting mechanisms.
+
+### Monitoring & Scalability
+
+- **Alert System:** Implements a push-based approach to monitoring, where alerts are generated and logged in real-time as data is ingested.
+- **Scalability Considerations:** Designed to handle increasing volumes of data by optimizing database indexing and utilizing Docker for scalable deployments.
 
 ### Design & Architecture
 
@@ -49,7 +55,7 @@ graph TD
 ```
 
 
-CryptoMonitor is thoughtfully architected to prioritize reliability and maintainability. The application is divided into modular components, each handling specific responsibilities:
+CryptoMonitor prioritizes reliability and maintainability. The application is divided into modular components, each handling specific responsibilities:
 
 - **Data Ingestion (`fetcher.py`):** Handles the continuous retrieval of data from CoinGecko's API, ensuring that the database is consistently updated with the latest information.
 - **Alert Processing (`alerts.py`):** Evaluates recent data to identify significant changes and logs corresponding alerts.
@@ -117,7 +123,7 @@ CryptoMonitor is thoughtfully architected to prioritize reliability and maintain
   - **Purpose:** Enables efficient querying and analysis of aggregated historical data for each cryptocurrency.
   - **Usage:** Supports trend analysis, reporting, and data-driven decision-making by providing quick access to daily OHLCV metrics.
 
-### 6. Testing and Security
+## Testing and Security Proposals
 
 - **Testing Tools**
   - **Python `unittest` Framework**
@@ -155,10 +161,7 @@ CryptoMonitor is thoughtfully architected to prioritize reliability and maintain
   - **Regular Updates**
     - **Purpose:** Keeps Docker images and containers up-to-date with the latest security patches and updates.
 
-### Monitoring & Scalability
 
-- **Alert System:** Implements a push-based approach to monitoring, where alerts are generated and logged in real-time as data is ingested.
-- **Scalability Considerations:** Designed to handle increasing volumes of data by optimizing database indexing and utilizing Docker for scalable deployments.
 
 ### Future Enhancements
 
