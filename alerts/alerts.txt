@@ -1,2 +1,7 @@
 2024-10-02 23:50:27.320502 UTC: Volume Alert: BTC volume changed by 4.10% from the previous 5-minute average.
 2024-10-03 00:00:22.574061 UTC: Volume Alert: BTC volume changed by 3.46% from the previous 5-minute average.
+2024-10-03 00:10:04.395758 UTC: Volume Alert: BTC volume changed by 5.22% from the previous 5-minute average.
+2024-10-03 01:15:13.449605 UTC: Volume Alert: BTC volume changed by 5.95% from the previous 5-minute average.
+2024-10-03 01:15:13.449605 UTC: Volume Alert: ETH volume changed by 12.75% from the previous 5-minute average.
+2024-10-03 01:25:54.380236 UTC: Volume Alert: ETH volume changed by 9.24% from the previous 5-minute average.
+2024-10-03 01:35:29.260833 UTC: Volume Alert: BTC volume changed by 6.98% from the previous 5-minute average.

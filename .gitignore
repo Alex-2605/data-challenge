@@ -1,0 +1,19 @@
+# app/.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+env/
+venv/
+.env/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker
+*.log
