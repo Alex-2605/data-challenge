@@ -2,7 +2,7 @@
 
 ## Overview
 
-**CryptoMonitor** is a streamlined tool designed to provide real-time monitoring and alerting for three cryptocurrencies: Bitcoin (BTC), Ethereum (ETH), and Zcash (ZEC). CryptoMonitor fetches data every second, ensuring up-to-date insights. This data is meticulously stored in a PostgreSQL.
+**CryptoMonitor** is a streamlined tool designed within 24 hr, to provide real-time monitoring and alerting for three cryptocurrencies: Bitcoin (BTC), Ethereum (ETH), and Zcash (ZEC). CryptoMonitor fetches data every second, ensuring up-to-date insights. This data is meticulously stored in a PostgreSQL.
 
 **IMPORTANT NOTE:** CoinGecko API offers both free and paid plans. The Demo API plan is accessible to all CoinGecko users at zero cost, with a stable rate limit of 30 calls/min and a monthly cap of 10,000 calls, meaning, even that this solution aims to retreive data per second for three different tickers (BTC, ETH & ZEC), this is NOT possible without upgrading the plan
 
@@ -32,6 +32,66 @@
 ### Monitoring & Scalability
 - **Alert System:** Implements a push-based approach to monitoring, where alerts are generated and logged in real-time as data is ingested.
 - **Scalability Considerations:** Designed to handle increasing volumes of data by optimizing database indexing and utilizing Docker for scalable deployments.
+
+## How to Run CryptoMonitor
+
+### Prerequisites
+
+- **Docker:** Install Docker from [Docker Official Website](https://www.docker.com/get-started).
+- **Docker Compose:** Ensure Docker Compose is installed (included with Docker Desktop).
+
+### Steps to Deploy
+
+1. **Clone the Repository**
+
+   Open your terminal, go to the desire location and run:
+
+   ```bash
+   git clone https://github.com/Alex-2605/data-challenge.git
+
+
+2. **Build and Start the Containers**
+
+   Use Docker Compose to build and run the application:
+
+   ```
+   docker-compose up -d
+
+- The `-d` flag runs the containers in detached mode..
+
+3. **Verify the Setup**
+
+   Check that both the application and database containers are running:
+
+   ```
+   docker-compose ps
+
+- You should see output indicating that both services (`app` and `db`) are up.
+
+4. **Monitor Application Logs**
+
+   If needed you can use logs to view real-time logs and verify data fetching and alerting:
+
+   ```
+   docker-compose logs -f app
+
+- Press `Ctrl + C` to exit the log view
+
+5. **Access Alert Logs**
+
+   Alerts are logged in the alerts/alerts.txt file on your host machine. To view the latest alerts:
+
+   ```
+   docker-compose up -d
+
+- The `-d` flag runs the containers in detached mode..
+
+6. **Stop the Application**
+
+   When you're done, stop and remove the containers:
+
+   ```
+   docker-compose down
 
 ### Design & Architecture
 

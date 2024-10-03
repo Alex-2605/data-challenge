@@ -1,0 +1,73 @@
+[33mcommit 1177f04376e1985182e91baf7db1243b0a5301de[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: [Alexandro Gomez] <alex.gmzc@gmail.com>
+Date:   Wed Oct 2 23:45:17 2024 -0600
+
+    update read_me
+
+[33mcommit bcf6458e0c25d750ea65518ee6212ba8f5ccc92a[m
+Author: [Alexandro Gomez] <alex.gmzc@gmail.com>
+Date:   Wed Oct 2 23:06:47 2024 -0600
+
+    readme
+
+[33mcommit a630be0354272c1ea3afd32283aae3a0c137799f[m
+Author: [Alexandro Gomez] <alex.gmzc@gmail.com>
+Date:   Wed Oct 2 22:45:30 2024 -0600
+
+    readme_update
+
+[33mcommit a08099ca80a91c51cf4b37de12934cc7c1d6f515[m
+Author: [Alexandro Gomez] <alex.gmzc@gmail.com>
+Date:   Wed Oct 2 22:44:35 2024 -0600
+
+    readme_update
+
+[33mcommit ce1f9f97ac3d9eda207f2428e0b88e7c80b6d5aa[m
+Author: [Alexandro Gomez] <alex.gmzc@gmail.com>
+Date:   Wed Oct 2 22:42:22 2024 -0600
+
+    readme_update
+
+[33mcommit 7d8d2c695b651b13e6b89fd2950fad66fd5e4347[m
+Author: [Alexandro Gomez] <alex.gmzc@gmail.com>
+Date:   Wed Oct 2 21:09:22 2024 -0600
+
+    readme
+
+[33mcommit b1a0d50e3ece24a0257cb62d1e286b8e31bca5c9[m
+Merge: 28b95fa d2ae076
+Author: [Alexandro Gomez] <alex.gmzc@gmail.com>
+Date:   Wed Oct 2 21:07:24 2024 -0600
+
+    Resolved conflict by keeping local changes in README.md
+
+[33mcommit d2ae07634cfb4ae35dab69b35757795cc187eff7[m
+Author: Alex-2605 <39106585+Alex-2605@users.noreply.github.com>
+Date:   Wed Oct 2 21:01:42 2024 -0600
+
+    Initial commit
+
+[33mcommit 28b95fafeaa6f5befc6e312799b611bac8f3d1f9[m
+Author: [Alexandro Gomez] <alex.gmzc@gmail.com>
+Date:   Wed Oct 2 20:34:09 2024 -0600
+
+    update
+
+[33mcommit 7025d6b245dc26ea5240d0356b1bf375594c356c[m
+Merge: cc4f365 1d01aae
+Author: [Alexandro Gomez] <alex.gmzc@gmail.com>
+Date:   Wed Oct 2 18:15:09 2024 -0600
+
+    Merge branch 'main' of https://github.com/Alex-2605/luxor-challenge-test
+
+[33mcommit cc4f36510d827a2c39ee6a59a0f79955fffe44a5[m
+Author: [Alexandro Gomez] <alex.gmzc@gmail.com>
+Date:   Wed Oct 2 18:01:14 2024 -0600
+
+    initial commit
+
+[33mcommit 1d01aaedf71b4401e1f4fc7c058a535d6fd4a425[m
+Author: Alex-2605 <39106585+Alex-2605@users.noreply.github.com>
+Date:   Wed Oct 2 17:55:23 2024 -0600
+
+    Initial commit
