@@ -2,13 +2,14 @@
 
 ## Overview
 
-**CryptoMonitor** is a streamlined tool designed to provide real-time monitoring and alerting for three major cryptocurrencies: Bitcoin (BTC), Ethereum (ETH), and Zcash (ZEC). Leveraging CoinGecko's API, CryptoMonitor fetches data every second, ensuring up-to-date insights into market movements. This data is meticulously stored in a PostgreSQL database, facilitating both immediate and historical analysis through well-structured tables and materialized views.
+**CryptoMonitor** is a streamlined tool designed to provide real-time monitoring and alerting for three cryptocurrencies: Bitcoin (BTC), Ethereum (ETH), and Zcash (ZEC). CryptoMonitor fetches data every second, ensuring up-to-date insights. This data is meticulously stored in a PostgreSQL.
+
+**IMPORTANT NOTE:** CoinGecko API offers both free and paid plans. The Demo API plan is accessible to all CoinGecko users at zero cost, with a stable rate limit of 30 calls/min and a monthly cap of 10,000 calls, meaning, even that this solution aims to retreive data per second for three different tickers (BTC, ETH & ZEC), this is NOT possible without upgrading the plan
 
 ### Key Features
 
 - **Real-Time Data Ingestion:**
   - **Frequent Updates:** Retrieves the latest price and volume data for BTC, ETH, and ZEC every second from CoinGecko's API.
-  - **IMPORTANT NOTE:** CoinGecko API offers both free and paid plans. The Demo API plan is accessible to all CoinGecko users at zero cost, with a stable rate limit of 30 calls/min and a monthly cap of 10,000 calls, meaning, even that this solution aims to retreive data per second for three different tickers (BTC, ETH & ZEC), this is NOT possible without upgrading the plan
   - **Resilient Fetching:** Utilizes retry mechanisms to handle transient API failures, ensuring continuous data collection without manual intervention.
 
 - **Data Storage and Management:**
@@ -29,7 +30,6 @@
   - **Logging:** Employs structured logging to facilitate easy monitoring and debugging of the application's operations and alerting mechanisms.
 
 ### Monitoring & Scalability
-
 - **Alert System:** Implements a push-based approach to monitoring, where alerts are generated and logged in real-time as data is ingested.
 - **Scalability Considerations:** Designed to handle increasing volumes of data by optimizing database indexing and utilizing Docker for scalable deployments.
 
@@ -49,7 +49,8 @@ graph TD
         B
         C
         D
-        F
+        E[ticker_data Table]
+        F[daily_ohlcv Materialized View]
     end
     G -->|Persistent Storage| H[Host Machine]
 ```
@@ -68,46 +69,40 @@ CryptoMonitor prioritizes reliability and maintainability. The application is di
 ### 1. Sources
 
 - **CoinGecko API**
-  - **Purpose:** Provides real-time cryptocurrency market data for Bitcoin (BTC), Ethereum (ETH), and Zcash (ZEC).
-  - **Integration:** Accessed via HTTP GET requests using the `requests` library in the `fetcher.py` module.
 
 ### 2. Ingestion & Transformation
 
-- **Python `requests` Library**
+- **Python-based modules:**
+
+ - **Python `requests` Library**
   - **Purpose:** Facilitates HTTP requests to the CoinGecko API for data retrieval.
   - **Usage:** Implemented in the `fetcher.py` module to fetch data every second.
 
-- **Python `retry` Library**
+ - **Python `retry` Library**
   - **Purpose:** Implements retry mechanisms to handle transient API and database failures.
   - **Usage:** Decorates functions in `fetcher.py` and `db.py` to ensure robust data fetching and insertion.
 
-- **Data Processing in `fetcher.py`**
-  - **Purpose:** Transforms raw API responses into structured data points (`symbol`, `price_usd`, `volume`) for storage and analysis.
-  - **Mechanism:** Parses JSON responses and maintains a rolling window of data history for each cryptocurrency to facilitate alert evaluations.
+ - **Data Processing in `fetcher.py`**
+
 
 ### 3. Storage
 
 - **PostgreSQL Database**
-  - **Purpose:** Acts as the central repository for all ingested cryptocurrency data.
-  - **Management:**
-    - **`db.py` Module:** Handles database connections, table creation (`ticker_data`), and ensures data integrity.
-    - **Schema Design:** 
-      - **`ticker_data` Table:** Stores per-second data ingestion with fields for `timestamp`, `symbol`, `price_usd`, and `volume`.
-      - **Materialized Views:** Managed by `views.py` to aggregate data into daily OHLCV (Open, High, Low, Close, Volume) metrics.
-
-- **Dockerized PostgreSQL**
-  - **Purpose:** Ensures a consistent and isolated database environment across different deployment setups.
-  - **Configuration:** Defined in `docker-compose.yml` with environment variables for database credentials and persistent storage using Docker volumes.
+- **Materialized Views**
+- **Python-based modules**
+- **Docker**
 
 ### 4. Processing
 
-- **`alerts.py` Module**
+- **Python-based modules:**
+
+ - **`alerts.py` Module**
   - **Purpose:** Monitors price and volume data to trigger alerts when changes exceed a specified threshold, logging these alerts for review.
   - **Functionality:**
     - **Threshold-Based Alerts:** Triggers alerts when price or volume changes exceed a 2% deviation from the previous five-minute average.
     - **Logging:** Writes alert messages to `alerts.txt` for persistent record-keeping.
 
-- **`views.py` Module**
+ - **`views.py` Module**
   - **Purpose:** Creates and manages a materialized view for daily OHLCV data, enabling efficient historical data analysis.
   - **Features:**
     - **Aggregation:** Computes daily OHLCV metrics from raw `ticker_data`.
@@ -135,36 +130,39 @@ CryptoMonitor prioritizes reliability and maintainability. The application is di
     - **Usage:** Used in unit and integration tests to mock CoinGecko API responses and database operations.
 
 - **Security Measures**
+
   - **Environment Variables**
-    - **Purpose:** Stores sensitive information like database credentials securely, preventing hardcoding of secrets in the codebase.
-    - **Management:** Utilizes `.env` files in conjunction with `docker-compose.yml` to inject environment variables into the application containers.
-
   - **Database Access Control**
-    - **Purpose:** Restricts database access to authorized users and services only.
-    - **Implementation:** Configures PostgreSQL roles and permissions to ensure that the application can only perform necessary operations (e.g., INSERT, SELECT).
-
   - **Secure API Communication**
-    - **Purpose:** Ensures that data fetched from the CoinGecko API is transmitted securely.
-    - **Implementation:** Utilizes HTTPS for all API requests to encrypt data in transit.
-
   - **Logging Security**
-    - **Purpose:** Prevents sensitive data from being inadvertently logged.
-    - **Implementation:** Configures logging to exclude sensitive information and restricts access to log files (`alerts.txt`).
 
 - **Docker Security**
+
   - **Trusted Base Images**
-    - **Purpose:** Minimizes vulnerabilities by using official and trusted Docker images (e.g., `postgres:13` for PostgreSQL).
-
   - **Least Privilege Principle**
-    - **Purpose:** Runs containers with the minimum required permissions to perform their tasks, reducing the attack surface.
-
   - **Regular Updates**
-    - **Purpose:** Keeps Docker images and containers up-to-date with the latest security patches and updates.
-
-
 
 ### Future Enhancements
 
 With additional time and resources, CryptoMonitor can be further enhanced to include features such as real-time dashboards, advanced notification systems (e.g., email or SMS alerts), and support for a broader range of cryptocurrencies and metrics.
+
+### Extending CryptoMonitor
+
+ Is easy to extend the capabilities of **CryptoMonitor**, to monitor additional metrics, support more cryptocurrencies, or adapt to different use cases. Here are some ways you can enhance the application:
+
+- **Add More Cryptocurrencies**
+- **Monitor Additional Metrics**
+- **Customize Alert Conditions**
+- **Integrate with Notification Services**
+- **Develop a User Interface**
+- **Expand to Other Data Sources**
+
+By implementing these extensions, **CryptoMonitor** can evolve into a more powerful and versatile tool, specially for the dynamic world of cryptocurrencies.
+
+## Scalability
+
+As we add more assets, the volume of data grows rapidly, which can slow down our database and make data retrieval less efficient. To handle this without losing any information, we can move our database to a cloud-based solution like **Google BigQuery**. BigQuery is designed to manage large datasets efficiently and can scale seamlessly as our data increases.
+
+To optimize retrieval speed, we can implement indexing on frequently queried fields and use **materialized views** to store pre-aggregated data. Additionally, incorporating caching mechanisms can help reduce the load on the database and speed up data access. Leveraging GCP services not only ensures our application remains fast and responsive but also provides robust tools for monitoring and managing our growing data needs.
 
 ---
