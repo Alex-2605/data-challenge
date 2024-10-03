@@ -25,7 +25,7 @@
   - **Optimized Data Handling:** Implements efficient data aggregation and indexing strategies to manage large volumes of incoming data without compromising retrieval speeds.
   - **Dockerized Deployment:** Utilizes Docker and Docker Compose for seamless deployment, ensuring consistency across different environments and simplifying scalability efforts.
 
-- **Comprehensive Monitoring:**
+- **Monitoring:**
   - **Health Checks:** Incorporates health checks for database connectivity, ensuring the system remains operational and can recover from potential disruptions.
   - **Logging:** Employs structured logging to facilitate easy monitoring and debugging of the application's operations and alerting mechanisms.
 
