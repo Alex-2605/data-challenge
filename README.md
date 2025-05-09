@@ -1,112 +1,39 @@
+
 # CryptoMonitor
 
-## Overview
+## 🚀 About the Project
 
-**CryptoMonitor** is a lightweight, real-time cryptocurrency monitoring tool developed in under 24 hours as part of a technical hiring challenge. It focuses on tracking three key cryptocurrencies: **Bitcoin (BTC)**, **Ethereum (ETH)**, and **Zcash (ZEC)**.
+**CryptoMonitor** is a real-time cryptocurrency monitoring system designed in under 24 hours as part of a hiring challenge, where it received strong positive feedback. The tool tracks three major cryptocurrencies **Bitcoin (BTC)**, **Ethereum (ETH)**, and **Zcash (ZEC)** by collecting high-frequency price and volume data, storing it in **PostgreSQL**, and triggering alerts based on dynamic thresholds.
 
-The system fetches market data at high frequency and stores it in a **PostgreSQL** database, enabling timely insights and potential alerting mechanisms. This project received **positive feedback** during the interview process for its architecture and clarity.
+This project has since evolved into a foundational **data engineering portfolio project**, demonstrating modular architecture, Dockerized deployment, real-time ingestion, alerting, and scalable design — with future extensions into GCP and BigQuery for large-scale applications.
 
-**IMPORTANT NOTE:** CryptoMonitor uses the [CoinGecko API](https://www.coingecko.com/en/api), which offers both free and paid plans. The free "Demo" plan allows for up to **30 calls per minute** and a **monthly cap of 10,000 calls**. Although this tool is designed to retrieve data every second for three tickers (BTC, ETH, and ZEC), such frequency exceeds the limits of the free tier. For full functionality, consider upgrading the API plan or adjusting the data fetch interval.
+> ⚠️ **API Usage Note**: CryptoMonitor uses the [CoinGecko API](https://www.coingecko.com/en/api). The free plan supports **30 calls/minute**, which is **not sufficient for 1-second polling for 3 tickers**. For unrestricted usage, upgrade the API plan or lower the polling frequency.
 
-### Key Features
+---
 
-- **Real-Time Data Ingestion:**
-  - **Frequent Updates:** Retrieves the latest price and volume data for BTC, ETH, and ZEC every second from CoinGecko's API.
-  - **Resilient Fetching:** Utilizes retry mechanisms to handle transient API failures, ensuring continuous data collection without manual intervention.
+## 🧠 Key Features
 
-- **Data Storage and Management:**
-  - **PostgreSQL Integration:** Stores incoming data in a dedicated `ticker_data` table, capturing essential metrics like timestamp, symbol, price in USD, and trading volume.
-  - **Historical Analysis:** Maintains a materialized view `daily_ohlcv` that aggregates data into daily Open, High, Low, Close, and Volume (OHLCV) metrics for each cryptocurrency, enabling efficient historical data analysis.
+- **Real-Time Ingestion**  
+  Polls CoinGecko API at high frequency to fetch price/volume data for BTC, ETH, ZEC.
 
-- **Alerting System:**
-  - **Threshold-Based Alerts:** Monitors price and volume changes, triggering alerts when deviations exceed 2% from the previous five-minute average.
-  - **Persistent Logging:** Logs all triggered alerts to a designated `alerts.txt` file, ensuring alerts are recorded and accessible for review.
-  - **Scalable Alerting:** Designed to accommodate additional metrics and cryptocurrencies with minimal adjustments, allowing for flexible expansion based on evolving requirements.
+- **Modular Architecture**  
+  Separated logic for data fetching, alerting, DB operations, and view generation for clarity and maintainability.
 
-- **Scalability and Performance:**
-  - **Optimized Data Handling:** Implements efficient data aggregation and indexing strategies to manage large volumes of incoming data without compromising retrieval speeds.
-  - **Dockerized Deployment:** Utilizes Docker and Docker Compose for seamless deployment, ensuring consistency across different environments and simplifying scalability efforts.
+- **Threshold-Based Alerts**  
+  Triggers alerts when price/volume deviate by >2% from the 5-minute moving average.
 
-- **Monitoring:**
-  - **Health Checks:** Incorporates health checks for database connectivity, ensuring the system remains operational and can recover from potential disruptions.
-  - **Logging:** Employs structured logging to facilitate easy monitoring and debugging of the application's operations and alerting mechanisms.
+- **Efficient Storage**  
+  Stores raw data in `ticker_data` table and aggregates into `daily_ohlcv` materialized views.
 
-### Monitoring & Scalability
-- **Alert System:** Implements a push-based approach to monitoring, where alerts are generated and logged in real-time as data is ingested.
-- **Scalability Considerations:** Designed to handle increasing volumes of data by optimizing database indexing and utilizing Docker for scalable deployments.
+- **Dockerized Deployment**  
+  Simplified containerized setup via `docker-compose`.
 
-## How to Run CryptoMonitor
+- **Scalable Design**  
+  Easily extendable to more assets, metrics, or backends (e.g., BigQuery).
 
-### Prerequisites
+---
 
-- **Docker:** Install Docker from [Docker Official Website](https://www.docker.com/get-started).
-- **Docker Compose:** Ensure Docker Compose is installed (included with Docker Desktop).
-
-### Steps to Deploy
-
-1. **Clone the Repository**
-
-   Open your terminal, go to the desire location and run:
-
-   ```bash
-   git clone https://github.com/Alex-2605/data-challenge.git
-
-
-2. **Build and Start the Containers**
-
-   Use Docker Compose to build and run the application:
-
-   ```
-   docker-compose up -d
-
-- The `-d` flag runs the containers in detached mode..
-
-
-3. **Verify the Setup**
-
-   Check that both the application and database containers are running:
-
-   ```
-   docker-compose ps
-
-- You should see output indicating that both services (`app` and `db`) are up.
-
-
-4. **Monitor Application Logs**
-
-   If needed you can use logs to view real-time logs and verify data fetching and alerting:
-
-   ```
-   docker-compose logs -f app
-
-- Press `Ctrl + C` to exit the log view
-
-5. **Access Alert Logs**
-
-   Alerts are logged in the alerts/alerts.txt file on your host machine. To view the latest alerts:
-
-   ```
-   docker-compose up -d
-
-- The `-d` flag runs the containers in detached mode..
-
-6. **Stop the Application**
-
-   When you're done, stop and remove the containers:
-
-   ```
-   docker-compose down
-
-### Accessing the PostgreSQL Database
-
-1. **Access the PostgreSQL container**
-
-   Run the following command to access the PostgreSQL database inside the container:
-
-   ```bash
-   docker exec -it <db_container_name> psql -U postgres -d crypto_data
-
-### Design & Architecture
+## 🧩 Architecture Overview
 
 ```mermaid
 graph TD
@@ -129,114 +56,93 @@ graph TD
     G -->|Persistent Storage| H[Host Machine]
 ```
 
+---
 
-CryptoMonitor prioritizes reliability and maintainability. The application is divided into modular components, each handling specific responsibilities:
+## 🗂️ Project Structure
 
-- **Data Ingestion (`fetcher.py`):** Handles the continuous retrieval of data from CoinGecko's API, ensuring that the database is consistently updated with the latest information.
-- **Alert Processing (`alerts.py`):** Evaluates recent data to identify significant changes and logs corresponding alerts.
-- **Database Management (`db.py`):** Manages the creation and maintenance of the PostgreSQL database and its tables.
-- **View Handling (`views.py`):** Manages the creation and refreshing of the materialized view for historical data analysis.
-- **Orchestration (`main.py`):** Serves as the entry point, coordinating the various modules to ensure smooth and efficient operation.
-
-## Tools Used for Each Stage of the Stack
-
-### 1. Sources
-
-- **CoinGecko API**
-
-### 2. Ingestion & Transformation
-
-- **Python-based modules:**
-
- - **Python `requests` Library**
-  - **Purpose:** Facilitates HTTP requests to the CoinGecko API for data retrieval.
-  - **Usage:** Implemented in the `fetcher.py` module to fetch data every second.
-
- - **Python `retry` Library**
-  - **Purpose:** Implements retry mechanisms to handle transient API and database failures.
-  - **Usage:** Decorates functions in `fetcher.py` and `db.py` to ensure robust data fetching and insertion.
-
- - **Data Processing in `fetcher.py`**
-
-
-### 3. Storage
-
-- **PostgreSQL Database**
-- **Materialized Views**
-- **Python-based modules**
-- **Docker**
-
-### 4. Processing
-
-- **Python-based modules:**
-
- - **`alerts.py` Module**
-  - **Purpose:** Monitors price and volume data to trigger alerts when changes exceed a specified threshold, logging these alerts for review.
-  - **Functionality:**
-    - **Threshold-Based Alerts:** Triggers alerts when price or volume changes exceed a 2% deviation from the previous five-minute average.
-    - **Logging:** Writes alert messages to `alerts.txt` for persistent record-keeping.
-
- - **`views.py` Module**
-  - **Purpose:** Creates and manages a materialized view for daily OHLCV data, enabling efficient historical data analysis.
-  - **Features:**
-    - **Aggregation:** Computes daily OHLCV metrics from raw `ticker_data`.
-    - **Periodic Refresh:** Ensures the materialized views are up-to-date by refreshing them at regular intervals (e.g., every 60 seconds).
-
-### 5. Output (Analysis)
-
-- **`alerts.txt` File**
-  - **Purpose:** Stores all triggered alerts, providing a historical log of significant market movements.
-  - **Location:** Mapped to the host machine via Docker volumes, ensuring persistence beyond container lifecycles.
-
-- **Materialized Views (`daily_ohlcv`)**
-  - **Purpose:** Enables efficient querying and analysis of aggregated historical data for each cryptocurrency.
-  - **Usage:** Supports trend analysis, reporting, and data-driven decision-making by providing quick access to daily OHLCV metrics.
-
-## Testing and Security Proposals
-
-- **Testing Tools**
-  - **Python `unittest` Framework**
-    - **Purpose:** Facilitates the creation of unit tests to ensure individual components (functions and modules) behave as expected.
-    - **Usage:** Can be implemented to test modules like `alerts.py`, `fetcher.py`, and `db.py` for correctness and reliability.
-
-  - **Mocking Libraries (`unittest.mock`)**
-    - **Purpose:** Simulates API responses and database interactions to test the application's resilience and alerting logic without relying on external systems.
-    - **Usage:** Used in unit and integration tests to mock CoinGecko API responses and database operations.
-
-- **Security Measures**
-
-  - **Environment Variables**
-  - **Database Access Control**
-  - **Secure API Communication**
-  - **Logging Security**
-
-- **Docker Security**
-
-  - **Trusted Base Images**
-  - **Least Privilege Principle**
-  - **Regular Updates**
-
-### Future Enhancements
-
-With additional time and resources, CryptoMonitor can be further enhanced to include features such as real-time dashboards, advanced notification systems (e.g., email or SMS alerts), and support for a broader range of cryptocurrencies and metrics.
-
-### Extending CryptoMonitor
-
- Is easy to extend the capabilities of **CryptoMonitor**, to monitor additional metrics, support more cryptocurrencies, or adapt to different use cases. Here are some ways you can enhance the application:
-
-- **Add More Cryptocurrencies**
-- **Monitor Additional Metrics**
-- **Customize Alert Conditions**
-- **Integrate with Notification Services**
-- **Develop a User Interface**
-- **Expand to Other Data Sources**
-
-By implementing these extensions, **CryptoMonitor** can evolve into a more powerful and versatile tool, specially for the dynamic world of cryptocurrencies.
-
-## Scalability
-
-As we add more assets, the volume of data grows rapidly, which can slow down our database and make data retrieval less efficient. To handle this without losing any information, we can move our database to a cloud-based solution like **Google BigQuery**. BigQuery is designed to manage large datasets efficiently and can scale seamlessly as our data increases.
-
-To optimize retrieval speed, we can implement indexing on frequently queried fields and use **materialized views** to store pre-aggregated data. Additionally, incorporating caching mechanisms can help reduce the load on the database and speed up data access. Leveraging GCP services not only ensures our application remains fast and responsive but also provides robust tools for monitoring and managing our growing data needs.
+- `fetcher.py`: Connects to the CoinGecko API and fetches live cryptocurrency data.
+- `db.py`: Handles database setup, connections, and inserts.
+- `alerts.py`: Analyzes recent price/volume data to generate alerts.
+- `views.py`: Manages materialized views for OHLCV aggregation.
+- `main.py`: Central orchestration script that runs all modules together.
 
 ---
+
+## ⚙️ How to Run
+
+### Prerequisites
+
+- Docker & Docker Compose installed
+
+### Deployment
+
+```bash
+# Clone the repo
+git clone https://github.com/Alex-2605/data-challenge.git
+cd data-challenge
+
+# Start the services
+docker-compose up -d
+
+# View logs (optional)
+docker-compose logs -f app
+
+# Stop the services
+docker-compose down
+```
+
+### Alert Logs
+
+Alerts are stored in:
+
+```bash
+alerts/alerts.txt
+```
+
+### Accessing PostgreSQL
+
+```bash
+docker exec -it <db_container_name> psql -U postgres -d crypto_data
+```
+
+---
+
+## 📈 Scalability and Future Enhancements
+
+- **Cloud Migration**: Use BigQuery for large-scale storage and querying.
+- **Indexing & Views**: Optimize queries with database indexes and materialized views.
+- **Dashboards**: Build visual dashboards using Streamlit or Looker Studio.
+- **Notification System**: Integrate email/SMS/webhooks for real-time alerts.
+- **Orchestration**: Move to Airflow or Cloud Composer for scheduled ETL.
+- **Testing Pipeline**: Add unit/integration tests with CI/CD.
+
+---
+
+## 🧪 Testing & Security Practices
+
+### Testing
+
+- Use `unittest` for core module testing.
+- Mock external API/database calls with `unittest.mock`.
+
+### Security
+
+- Use environment variables for credentials.
+- Ensure API communication over HTTPS.
+- Restrict DB access and use minimal Docker images.
+
+---
+
+## 🌐 Potential Extensions
+
+- Support more cryptocurrencies or trading pairs.
+- Monitor additional metrics (market cap, RSI, etc.).
+- Set custom alert logic per coin or market condition.
+- Replace PostgreSQL with BigQuery or another cloud-native DWH.
+- Add interactive UI to manage configurations and view results.
+
+---
+
+## 📌 Final Thoughts
+
+CryptoMonitor demonstrates the foundation of a real-time, modular, and scalable data monitoring pipeline. With production-ready architecture and flexibility, it’s an ideal base to grow into a complete analytics platform for cryptocurrencies and other streaming data domains.
