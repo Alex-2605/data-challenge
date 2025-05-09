@@ -2,9 +2,11 @@
 
 ## Overview
 
-**CryptoMonitor** is a streamlined tool designed within 24 hr, to provide real-time monitoring and alerting for three cryptocurrencies: Bitcoin (BTC), Ethereum (ETH), and Zcash (ZEC). CryptoMonitor fetches data every second, ensuring up-to-date insights. This data is meticulously stored in a PostgreSQL.
+**CryptoMonitor** is a lightweight, real-time cryptocurrency monitoring tool developed in under 24 hours as part of a technical hiring challenge. It focuses on tracking three key cryptocurrencies: **Bitcoin (BTC)**, **Ethereum (ETH)**, and **Zcash (ZEC)**.
 
-**IMPORTANT NOTE:** CoinGecko API offers both free and paid plans. The Demo API plan is accessible to all CoinGecko users at zero cost, with a stable rate limit of 30 calls/min and a monthly cap of 10,000 calls, meaning, even that this solution aims to retreive data per second for three different tickers (BTC, ETH & ZEC), this is NOT possible without upgrading the plan
+The system fetches market data at high frequency and stores it in a **PostgreSQL** database, enabling timely insights and potential alerting mechanisms. This project received **positive feedback** during the interview process for its architecture and clarity.
+
+**IMPORTANT NOTE:** CryptoMonitor uses the [CoinGecko API](https://www.coingecko.com/en/api), which offers both free and paid plans. The free "Demo" plan allows for up to **30 calls per minute** and a **monthly cap of 10,000 calls**. Although this tool is designed to retrieve data every second for three tickers (BTC, ETH, and ZEC), such frequency exceeds the limits of the free tier. For full functionality, consider upgrading the API plan or adjusting the data fetch interval.
 
 ### Key Features
 
